@@ -1,0 +1,286 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Documentación para el API de búsqueda de canciones, películas, shows de TV y personas",
+    "version" : "1.0.0",
+    "title" : "API Test Búsquedas",
+    "contact" : {
+      "email" : "luise.prado99@hotmail.com"
+    }
+  },
+  "tags" : [ {
+    "name" : "Búsquedas",
+    "description" : "Endpoint para buscar canciones, películas, shows de TV y personas"
+  } ],
+  "paths" : {
+    "/api/v1/busqueda/" : {
+      "get" : {
+        "tags" : [ "Búsquedas" ],
+        "summary" : "búsqueda de canciones, películas, shows de TV y personas",
+        "description" : "Colocando los querys correctos podrá buscar la información de canciones, películas, shows de TV y personas\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "q",
+          "description" : "Texto que desea buscar",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "categorias",
+          "description" : "Categorías en las que desea buscar. Las categorías disponibles son \"canciones, peliculas, showsTV, personas\" (colocarlas exactamente así). Si no coloca esta opción o deja vacía la opción, se asumirá que buscará todas las entidades. Ejemplo \"peliculas,personas\" para obtener los resultados de las peliculas y personas que coincidan con el valor ingresado.",
+          "type" : "string",
+          "required" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Los resultados encontrados de las categorías que quiso obtener",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "canciones" : {
+                  "type" : "object",
+                  "properties" : {
+                    "resultados" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/definitions/cancion"
+                      }
+                    },
+                    "origen" : {
+                      "type" : "string",
+                      "example" : "https://itunes.apple.com/search"
+                    }
+                  }
+                },
+                "peliculas" : {
+                  "type" : "object",
+                  "properties" : {
+                    "resultados" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/definitions/pelicula"
+                      }
+                    },
+                    "origen" : {
+                      "type" : "string",
+                      "example" : "https://itunes.apple.com/search"
+                    }
+                  }
+                },
+                "showsTV" : {
+                  "type" : "object",
+                  "properties" : {
+                    "resultados" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/definitions/showTV"
+                      }
+                    },
+                    "origen" : {
+                      "type" : "string",
+                      "example" : "https://api.tvmaze.com/search/shows"
+                    }
+                  }
+                },
+                "personas" : {
+                  "type" : "object",
+                  "properties" : {
+                    "resultados" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/definitions/persona"
+                      }
+                    },
+                    "origen" : {
+                      "type" : "string",
+                      "example" : "http://www.crcind.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Valor de busqueda no ingresado"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "cancion" : {
+      "type" : "object",
+      "properties" : {
+        "nombre" : {
+          "type" : "string",
+          "example" : "The Day That Never Comes"
+        },
+        "artista" : {
+          "type" : "string",
+          "example" : "Metallica"
+        },
+        "genero" : {
+          "type" : "string",
+          "example" : "Metal"
+        },
+        "fechaLanzamiento" : {
+          "type" : "string",
+          "format" : "date-time",
+          "example" : "2008-08-21T07:00:00.000Z"
+        }
+      }
+    },
+    "pelicula" : {
+      "type" : "object",
+      "properties" : {
+        "nombre" : {
+          "type" : "string",
+          "example" : "Harry Potter and the Deathly Hallows, Part 2"
+        },
+        "artista" : {
+          "type" : "string",
+          "example" : "David Yates"
+        },
+        "genero" : {
+          "type" : "string",
+          "example" : "Kids & Family"
+        },
+        "descripcion" : {
+          "type" : "string",
+          "example" : "\\\"Harry Potter and the Deathly Hallows - Part 2,\\\" is the final adventure in the Harry Potter film series. The much-anticipated motion picture event is the second of two full-length parts. In the epic finale, the battle between the good and evil forces of the wizarding world escalates into an all-out war. The stakes have never been higher and no one is safe. But it is Harry Potter who may be called upon to make the ultimate sacrifice as he draws closer to the climactic showdown with Lord Voldemort. It all ends here."
+        },
+        "fechaLanzamiento" : {
+          "type" : "string",
+          "format" : "date-time",
+          "example" : "2011-07-14T07:00:00.000Z"
+        }
+      }
+    },
+    "showTV" : {
+      "type" : "object",
+      "properties" : {
+        "nombre" : {
+          "type" : "string",
+          "example" : "A Teacher"
+        },
+        "generos" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "descripcion" : {
+          "type" : "string",
+          "example" : "<p><b>A Teacher</b> examines the complexities and consequences of an illegal relationship between a female teacher, Claire and her male high school student, Eric. Dissatisfied in their own lives, Claire and Eric discover an undeniable escape in each other, but their relationship accelerates faster than anticipated and the permanent damage becomes impossible to ignore.</p>"
+        },
+        "lenguaje" : {
+          "type" : "string",
+          "example" : "English"
+        },
+        "fechaLanzamiento" : {
+          "type" : "string",
+          "format" : "date-time",
+          "example" : "2020-11-10T00:00:00.000Z"
+        },
+        "fechaFinalizacion" : {
+          "type" : "string",
+          "format" : "date-time",
+          "example" : "2020-12-29T00:00:00.000Z"
+        }
+      }
+    },
+    "persona" : {
+      "type" : "object",
+      "properties" : {
+        "nombre" : {
+          "type" : "string",
+          "example" : "Adams,Phil H."
+        },
+        "fechaNacimiento" : {
+          "type" : "string",
+          "format" : "date-time",
+          "example" : "1972-11-24"
+        },
+        "coloresFavoritos" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "edad" : {
+          "type" : "integer",
+          "example" : 48
+        },
+        "titulo" : {
+          "type" : "string",
+          "example" : "Senior Administrator"
+        },
+        "salario" : {
+          "type" : "integer",
+          "example" : 88133
+        },
+        "ubicacionCasa" : {
+          "type" : "object",
+          "properties" : {
+            "Street" : {
+              "type" : "string",
+              "example" : "3103 Madison Court"
+            },
+            "City" : {
+              "type" : "string",
+              "example" : "Reston"
+            },
+            "State" : {
+              "type" : "string",
+              "example" : "SD"
+            },
+            "Zip" : {
+              "type" : "string",
+              "example" : 80038
+            }
+          }
+        },
+        "ubicacionOficina" : {
+          "type" : "object",
+          "properties" : {
+            "Street" : {
+              "type" : "string",
+              "example" : "1172 Second Place"
+            },
+            "City" : {
+              "type" : "string",
+              "example" : "Chicago"
+            },
+            "State" : {
+              "type" : "string",
+              "example" : "TX"
+            },
+            "Zip" : {
+              "type" : "string",
+              "example" : 88522
+            }
+          }
+        },
+        "conyugue" : {
+          "type" : "object",
+          "properties" : {
+            "nombre" : {
+              "type" : "string",
+              "example" : "Gibbs,Ed X."
+            },
+            "fechaNacimiento" : {
+              "type" : "string",
+              "format" : "date-time",
+              "example" : "1957-01-12"
+            },
+            "edad" : {
+              "type" : "integer",
+              "example" : 64
+            }
+          }
+        }
+      }
+    }
+  }
+}
